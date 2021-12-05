@@ -1,4 +1,6 @@
-file_in = open("input.txt", "r")
+import pprint
+
+file_in = open("/home/sampr/code_projects/advent_of_code_2021/20211204/input.txt", "r")
 called_numbers = file_in.readline()
 games = file_in.read().splitlines()
 file_in.close()
@@ -43,6 +45,7 @@ games_by_rows_and_columns = []
 game_cards = []
 game_card = []
 winning_boards = []
+pp = pprint.PrettyPrinter(indent=4)
 
 for row in games:
     row_by_colums = row.split()
@@ -57,13 +60,13 @@ for row in games_by_rows_and_columns:
         game_card.append(row)
 
 
-for called_number in called_numbers.split(','):
+for called_number in called_numbers.split(','):    
     for game_index, game_card in enumerate(game_cards):
-        for row_index, row in enumerate(game_card):
-            for column_index, column in enumerate(row):
-                if column == called_number:
-                    game_card[row_index][column_index] = 'X'
-        if check_for_winner(game_card):
-            print("Score: " + str(calculate_score(check_for_winner(game_card), called_number)))
-            winning_boards.append(game_card)
-            game_cards.pop(game_index)
+        if game_card not in winning_boards:
+            for row_index, row in enumerate(game_card):
+                for column_index, column in enumerate(row):
+                    if column == called_number:
+                        game_card[row_index][column_index] = 'X'
+            if check_for_winner(game_card):
+                print("Score: " + str(calculate_score(check_for_winner(game_card), called_number)))
+                winning_boards.append(game_card)
